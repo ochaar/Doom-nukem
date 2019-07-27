@@ -2,7 +2,7 @@
 
 Here is my final group project of 42 school named Doom-nukem.
 We wanted to recreate the video game Duke-nukem from 1996.
-![alt text](https://raw.githubusercontent.com/ochaar/Doom-nukem/img.jpg)
+![doom](img.jpg)
 
 ## Installing
 
@@ -75,7 +75,6 @@ On placing mode press left clic to place sprites and right clic to change sprite
 
 On texture mode select a point and press arrows to change textures and apply on wall ceiling or floor
 
-
-When you finish press F5 to save your map, you can choose it on the menu.
+When you finish press F5 to save your map, you can choose it on the menu. Be careful the program can put a error message on the terminal if you want to save a wrong map, keep an eye on it.
 
 # Hope you enjoy the game !
