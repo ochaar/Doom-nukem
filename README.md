@@ -2,7 +2,7 @@
 
 Here is my final group project of 42 school named Doom-nukem.
 We wanted to recreate the video game Duke-nukem from 1996.
-![doom](img.jpg)
+![doom](doom.png)
 
 ## Installing
 
@@ -58,7 +58,7 @@ You can switch map by returning on the menu with esc and select "maps".
 ## How to use editor
 
 Here's an exemple of the editor
-Insert image
+![editor](editor.png)
 
 You can draw segments with your mouse by clicking on points, to create a sector (room) just
 clic on your on your first point.
