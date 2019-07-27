@@ -2,7 +2,7 @@
 
 Here is my final group project of 42 school named Doom-nukem.
 We wanted to recreate the video game Duke-nukem from 1996.
-![alt text](https://github.com/ochaar/Doom-nukem/img.jpg)
+![alt text](https://raw.githubusercontent.com/ochaar/Doom-nukem/img.jpg)
 
 ## Installing
 
