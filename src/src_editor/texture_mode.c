@@ -6,7 +6,7 @@
 /*   By: nvienot <nvienot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/09 12:39:03 by abechet           #+#    #+#             */
-/*   Updated: 2019/07/25 17:25:38 by nvienot          ###   ########.fr       */
+/*   Updated: 2019/07/19 16:58:32 by nvienot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,17 +103,14 @@ void		texture_mode_helper(t_win *win)
 
 void		texture_mode(t_env *w, t_win *win)
 {
-	if (w->stopread != 1)
+	texture_overing(win);
+	inventory_display(w, win);
+	if (win->put_texture)
+		texture_mode_helper(win);
+	if (win->texture_overed_sector != -1)
 	{
-		texture_overing(win);
-		inventory_display(w, win);
-		if (win->put_texture)
-			texture_mode_helper(win);
-		if (win->texture_overed_sector != -1)
-		{
-			thumbnail(w, win);
-			help_text(w, win);
-		}
-		win->put_texture = 0;
+		thumbnail(w, win);
+		help_text(w, win);
 	}
+	win->put_texture = 0;
 }

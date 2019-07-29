@@ -1,14 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   sprite.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ochaar <ochaar@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/07/22 19:00:14 by ochaar            #+#    #+#             */
-/*   Updated: 2019/07/22 19:01:04 by ochaar           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+/*BIG42HEADER*/
 
 #include "doom.h"
 
@@ -64,7 +54,7 @@ void		hit_box(t_env *w, t_map *m, int x, t_cal_sprt d)
 	}
 }
 
-void		ennemy_go_to(t_map *m, int x, t_coor coor)
+void ennemy_go_to(t_map *m, int x, t_coor coor)
 {
 	double		diffx;
 	double		diffy;
@@ -86,6 +76,7 @@ void		ennemy_go_to(t_map *m, int x, t_coor coor)
 
 void		draw_ennemy(t_env *w, t_map *m, int x, double ratio)
 {
+	
 	t_cal_sprt	data;
 	t_img		img;
 
@@ -95,8 +86,7 @@ void		draw_ennemy(t_env *w, t_map *m, int x, double ratio)
 		hit_box(w, m, x, data);
 	if (data.t1z > 0)
 	{
-		img = fill_t_img(data.x1, data.y1a, m->sprite[m->ennemy[x].index].w
-			* data.zoom * ratio, 0);
+		img = fill_t_img(data.x1, data.y1a, m->sprite[m->ennemy[x].index].w * data.zoom * ratio, 0);
 		sprt_to_screen(w, m->sprite[m->ennemy[x].index], img);
 	}
 }

@@ -1,26 +1,13 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: nvienot <nvienot@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/07/24 18:19:31 by ochaar            #+#    #+#             */
-/*   Updated: 2019/07/25 14:02:46 by nvienot          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+/*BIG42HEADER*/
 
 #include "doom.h"
 
 void			init_world(t_env **w, t_map **m, int ac)
 {
 	if ((*w = (t_env *)malloc(sizeof(t_env))) == NULL)
-		exit(0);
+		set_error(*w, *m, 0, ft_strdup("struct world"));
 	if ((*m = (t_map *)malloc(sizeof(t_map))) == NULL)
-	{
-		free(w);
-		exit(0);
-	}
+		set_error(*w, *m, 0, ft_strdup("struct map"));
 	set_basics(*w, *m, ac);
 }
 
@@ -38,7 +25,10 @@ int				main(int ac, char **av)
 	t_env		*w;
 	t_map		*m;
 	char		***cmd;
+	clock_t		go_go_go;
+	clock_t		over;
 
+	go_go_go = clock();
 	w = NULL;
 	m = NULL;
 	cmd = NULL;
@@ -46,6 +36,9 @@ int				main(int ac, char **av)
 	if (ac > 1)
 		interpret_cmd(w, m, cmd, av);
 	load_core(w, m);
+	over = clock();
+	w->loading_time = ((double)(over - go_go_go)) / CLOCKS_PER_SEC;
+	printf("game loaded in %f seconds !\n", w->loading_time);
 	launch(w, m);
 	exit_game(w, m, 0);
 	return (0);

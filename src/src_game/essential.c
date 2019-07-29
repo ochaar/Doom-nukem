@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   essential.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvienot <nvienot@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ochaar <ochaar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/20 15:58:24 by ochaar            #+#    #+#             */
-/*   Updated: 2019/07/23 19:22:52 by nvienot          ###   ########.fr       */
+/*   Updated: 2019/07/20 16:09:14 by ochaar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ double	v_c_p(double x0, double y0, double x1, double y1)
 	return (x0 * y1 - x1 * y0);
 }
 
-double	pointside(t_coor p, t_dot p0, double x1, double y1)
+double	pointside(t_coor p, double x0, double y0, double x1, double y1)
 {
-	return (sign(v_c_p(x1 - p0.x, y1 - p0.y, p.x - p0.x, p.y - p0.y)));
+	return (sign(v_c_p(x1 - x0, y1 - y0, p.x - x0, p.y - y0)));
 }
 
 t_coor	intersect(t_intersect i)
@@ -51,13 +51,4 @@ t_coor	intersect(t_intersect i)
 		i.y3 - i.y4));
 	coor.z = 0;
 	return (coor);
-}
-
-t_dot	fill_t_dot(int x, int y)
-{
-	t_dot	dot;
-
-	dot.x = x;
-	dot.y = y;
-	return (dot);
 }

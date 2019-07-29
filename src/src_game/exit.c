@@ -6,7 +6,7 @@
 /*   By: ochaar <ochaar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/11 10:17:33 by ochaar            #+#    #+#             */
-/*   Updated: 2019/07/25 13:00:37 by ochaar           ###   ########.fr       */
+/*   Updated: 2019/07/17 11:14:29 by ochaar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void		empty_music(t_env *w)
 		Mix_FreeMusic(w->sound.musique);
 	if (w->sound.jump != NULL)
 		Mix_FreeChunk(w->sound.jump);
+	if (w->sound.ground != NULL)
+		Mix_FreeChunk(w->sound.ground);
 	if (w->sound.reload != NULL)
 		Mix_FreeChunk(w->sound.reload);
 	if (w->sound.clic != NULL)
@@ -34,62 +36,68 @@ void		empty_world(t_env *w)
 	i = -1;
 	if (w != NULL)
 	{
-		ft_free_w(w);
-		if (w->ascii != NULL)
-		{
-			while (++i < w->asciino)
-				if (w->ascii[i].pix != NULL)
-					free(w->ascii[i].pix);
-			free(w->ascii);
-		}
+		free(w->light_nb);
+		if (w->main_pic[0].pix != NULL)
+			free(w->main_pic[0].pix);
+		if (w->main_pic[1].pix != NULL)
+			free(w->main_pic[1].pix);
+		if (w->main_pic[2].pix != NULL)
+			free(w->main_pic[2].pix);
+		if (w->pix != NULL)
+			free(w->pix);
+		while (++i < w->asciino)
+			free(w->ascii[i].pix);
+		free(w->ascii);
 		i = -1;
-		if (w->texturing != NULL)
-		{
-			while (++i < w->texturingno)
-				if (w->texturing[i].pix != NULL)
-					free(w->texturing[i].pix);
-			free(w->texturing);
-		}
-		if (w->currmap != NULL)
-			free(w->currmap);
+		while (++i < w->texturingno)
+			free(w->texturing[i].pix);
+		free(w->texturing);
 		free(w);
 	}
 }
 
-static void	empty_map_next(t_map *m)
+void		ft_free_sector(t_map *m)
 {
-	if (m->linklvl != NULL)
-		free(m->linklvl);
-	if (m->whitebox.pix != NULL)
-		free(m->whitebox.pix);
-	ft_free_sprt(m);
-	ft_free_sprite(m);
-	ft_free_weap(m);
-	ft_free_sector(m);
-	free(m);
+	int	i;
+
+	i = 0;
+	if (m->sector != NULL)
+	{
+		while (i < m->sector_count && i < m->s)
+		{
+			if (m->sector[i].dot != NULL)
+				free(m->sector[i].dot);
+			if (m->sector[i].network != NULL)
+				free(m->sector[i].network);
+			i++;
+		}
+		free(m->sector);
+		m->sector = NULL;
+	}
 }
 
 void		empty_map(t_map *m)
 {
 	if (m != NULL)
 	{
-		if (m->player.fps != NULL)
-			free(m->player.fps);
-		if (m->player.stractu_ammo != NULL)
-			free(m->player.stractu_ammo);
-		if (m->player.strhp != NULL)
-			free(m->player.strhp);
-		if (m->player.strbullet != NULL)
-			free(m->player.strbullet);
+		free(m->player.fps);
+		free(m->player.stractu_ammo);
+		free(m->player.strhp);
+		free(m->player.strbullet);
+		if (m->map_name != NULL)
+			free(m->map_name);
+		if (m->map_name != NULL)
+			free(m->map_path);
 		if (m->dot != NULL)
 			free(m->dot);
 		if (m->hud.pix != NULL)
 			free(m->hud.pix);
-		if (m->hud2.pix != NULL)
-			free(m->hud2.pix);
 		if (m->ennemy != NULL)
 			free(m->ennemy);
-		empty_map_next(m);
+		ft_free_sprt(m);
+		ft_free_weap(m);
+		ft_free_sector(m);
+		free(m);
 	}
 }
 

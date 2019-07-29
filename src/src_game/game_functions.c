@@ -6,7 +6,7 @@
 /*   By: ochaar <ochaar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/22 16:46:06 by ochaar            #+#    #+#             */
-/*   Updated: 2019/07/22 18:25:31 by ochaar           ###   ########.fr       */
+/*   Updated: 2019/07/22 17:02:24 by ochaar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void		reload_weapon(t_env *w, t_map *m)
 	}
 }
 
-void		get_that_time(t_env *w)
+void	get_that_time(t_env *w)
 {
 	Uint32		result;
 

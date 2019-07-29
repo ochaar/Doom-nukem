@@ -12,29 +12,29 @@
 
 #include "doom.h"
 
-void	clear_n_exit(t_env *w, t_win *win)
+int			clear_n_exit(t_win *win, int error)
 {
-	free(win->itoastr);
-	if (win->paramtxt != NULL)
-		free(win->paramtxt);
-	if (win->paramvaluetxt != NULL)
-		free(win->paramvaluetxt);
-	if (win->helptxt != NULL)
-		free(win->helptxt);
-	free_listlist(win);
-	free_triangles(win);
-	free_assets(win);
-	w->stopread = 1;
+	//put_error(error);
+	//if (win->surface != NULL)
+	//	SDL_FreeSurface(win->surface);
+	//if (win->renderer != NULL)
+	//	SDL_DestroyRenderer(win->renderer);
+	//if (win->window != NULL)
+	//	SDL_DestroyWindow(win->window);
+	(void)win;
+	if (error > 0)
+		exit(EXIT_FAILURE);
+	exit(EXIT_SUCCESS);
 }
 
 int		level_editor_start(t_env *w)
 {
 	t_win	win;
 
-	win.wo = w;
-	fit_to_editor(w, &win);
+	fit_to_editor(w);
 	init2(w, &win);
 	loop_play(w, &win);
 	w->menu.i = 1;
+	// fit_to_game(w);
 	return (EXIT_SUCCESS);
 }

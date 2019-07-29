@@ -12,12 +12,12 @@
 
 #include "doom.h"
 
-t_lstlst	*lstlstnew(t_env *w, t_win *win)
+t_lstlst	*lstlstnew(t_win *win)
 {
 	t_lstlst	*tmp;
 
 	if (!(tmp = (t_lstlst *)malloc(sizeof(t_lstlst))))
-		clear_n_exit(w, win);
+		return (NULL);
 	tmp->sector = win->sector;
 	tmp->closed = 0;
 	tmp->head = win->lst;
@@ -36,20 +36,19 @@ void		sector_confirm(t_win *win)
 	win->lst = NULL;
 	win->sector += 1;
 	win->drawing = 0;
+	win->just_close = 1;
 }
 
-int			check_list(t_env *w, t_win *win, t_lst *lst, t_dot dot)
+int			check_list(t_win *win, t_lst *lst, int x, int y)
 {
 	t_lst	*tmp;
 	t_lst	*new;
 	int		closed;
-	t_dot	dot2;
 
 	tmp = lst;
 	closed = 0;
-	dot2 = fill_t_dot(dot.x, dot.y);
-	new = lstnew(w, win, dot2, win->sector);
-	if (dot.x == win->lst->x && dot.y == win->lst->y && win->lst->next != NULL)
+	new = lstnew(x, y, win->sector);
+	if (x == win->lst->x && y == win->lst->y && win->lst->next != NULL)
 	{
 		sector_confirm(win);
 		closed = 1;
@@ -61,14 +60,14 @@ int			check_list(t_env *w, t_win *win, t_lst *lst, t_dot dot)
 	return (closed);
 }
 
-t_lst		*lstnew(t_env *w, t_win *win, t_dot dot, int sector)
+t_lst		*lstnew(int x, int y, int sector)
 {
 	t_lst	*tmp;
 
 	if (!(tmp = (t_lst *)malloc(sizeof(t_lst))))
-		clear_n_exit(w, win);
-	tmp->x = dot.x;
-	tmp->y = dot.y;
+		return (NULL);
+	tmp->x = x;
+	tmp->y = y;
 	tmp->sector = sector;
 	tmp->next = NULL;
 	return (tmp);

@@ -89,7 +89,7 @@ void		change_texture_index(t_env *w, t_win *win)
 {
 	if (win->txtr_input_type == 1 || win->txtr_input_type == 2)
 	{
-		if (win->texture_index < 47)
+		if (win->texture_index < 45)
 			win->texture_index += 1;
 		if (win->hud_box < 4)
 			win->hud_box++;

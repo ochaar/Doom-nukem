@@ -6,30 +6,16 @@
 /*   By: nvienot <nvienot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 14:19:05 by abechet           #+#    #+#             */
-/*   Updated: 2019/07/24 22:26:23 by nvienot          ###   ########.fr       */
+/*   Updated: 2019/07/22 16:17:51 by nvienot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
 
-void	inventory_2(t_env *w, t_map *m, t_img img)
-{
-	if (m->player.take[2] == 1)
-	{
-		img = fill_t_img(480, HEIGHT - 54, 64, 0);
-		sprt_to_screen(w, m->sprite[2], img);
-	}
-	if (m->player.take[3] == 1)
-	{
-		img = fill_t_img(560, HEIGHT - 54, 64, 0);
-		sprt_to_screen(w, m->sprite[22], img);
-	}
-}
-
 void	inventory(t_env *w, t_map *m, t_dot dot)
 {
 	t_img	img;
-
+	
 	dot.x = 115;
 	if (m->player.take[PH] == 1)
 	{
@@ -48,16 +34,25 @@ void	inventory(t_env *w, t_map *m, t_dot dot)
 		img = fill_t_img(399, HEIGHT - 60, 64, 48);
 		sprt_to_screen(w, m->sprite[1], img);
 	}
-	inventory_2(w, m, img);
+	if (m->player.take[2] == 1)
+	{
+		img = fill_t_img(480, HEIGHT - 54, 64, 0);
+		sprt_to_screen(w, m->sprite[2], img);
+	}
+	if (m->player.take[3] == 1)
+	{
+		img = fill_t_img(560, HEIGHT - 54, 64, 0);
+		sprt_to_screen(w, m->sprite[22], img);
+	}
 }
 
 void	ft_hud(t_env *w, t_map *m)
 {
-	t_img	img;
 	t_dot	dot;
 
-	img = fill_t_img(WIDTH / 2 - m->hud.w / 2, HEIGHT - m->hud.h, 0, 0);
-	img_to_screen(w, m->hud, img);
+	dot.x = WIDTH / 2 - m->hud.w / 2;
+	dot.y = HEIGHT - m->hud.h;
+	safe_texture_to_screen(w, m->hud, dot.x, dot.y);
 	dot.x = 10;
 	dot.y = 10;
 	type_str(w, dot, "HP : ", 0x12FF0000);

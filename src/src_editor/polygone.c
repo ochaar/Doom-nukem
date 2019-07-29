@@ -12,13 +12,12 @@
 
 #include "doom.h"
 
-t_lstlst	*triangles_new(t_env *w,
-	t_win *win, t_lstlst *tmp3, t_lst *polygone)
+t_lstlst	*triangles_new(t_lstlst *tmp3, t_lst *polygone)
 {
 	t_lstlst	*tmp;
 
 	if (!(tmp = (t_lstlst *)malloc(sizeof(t_lstlst))))
-		clear_n_exit(w, win);
+		return (NULL);
 	tmp->head = polygone;
 	tmp->next = NULL;
 	tmp->txtr_wall = tmp3->txtr_wall;
@@ -29,46 +28,39 @@ t_lstlst	*triangles_new(t_env *w,
 	return (tmp);
 }
 
-t_lstlst	*stock_triangles(t_win *win, t_lstlst *tmp3, t_lst *poly)
+t_lstlst	*stock_triangles(t_lstlst *triangles, t_lstlst *tmp3, t_lst *poly)
 {
 	t_lstlst	*tmp2;
 
 	tmp2 = NULL;
-	if (win->triangles == NULL)
-		win->triangles = triangles_new(win->wo, win, tmp3, poly);
+	if (triangles == NULL)
+		triangles = triangles_new(tmp3, poly);
 	else
 	{
-		tmp2 = win->triangles;
+		tmp2 = triangles;
 		while (tmp2->next)
 			tmp2 = tmp2->next;
-		tmp2->next = triangles_new(win->wo, win, tmp3, poly);
+		tmp2->next = triangles_new(tmp3, poly);
 	}
-	return (win->triangles);
+	return (triangles);
 }
 
-t_lstlst	*two_poly(t_win *win,
-	t_lst *polygone, t_count cpt, t_lstlst *tmp3)
+t_lstlst	*two_poly(t_win *win, t_lst *polygone, t_count cpt, t_lstlst *tmp3)
 {
 	t_lst		*polygone1;
 	t_lst		*polygone2;
 
-	if ((polygone1 = new_poly(win, polygone, cpt.j0, cpt.x)) == NULL)
-		clear_n_exit(win->wo, win);
-	if ((polygone2 = new_poly(win, polygone, cpt.x, cpt.j0)) == NULL)
-		clear_n_exit(win->wo, win);
+	if ((polygone1 = new_poly(polygone, cpt.j0, cpt.x)) == NULL)
+		clear_n_exit(win, 1);
+	if ((polygone2 = new_poly(polygone, cpt.x, cpt.j0)) == NULL)
+		clear_n_exit(win, 1);
 	if (len_list(polygone1) == 3)
-		win->triangles = stock_triangles(win, tmp3, polygone1);
+		win->triangles = stock_triangles(win->triangles, tmp3, polygone1);
 	else
-	{
-		recursive_triangulate(win->wo, win, tmp3, polygone1);
-		free_list(polygone1);
-	}
+		recursive_triangulate(win, tmp3, polygone1);
 	if (len_list(polygone2) == 3)
-		win->triangles = stock_triangles(win, tmp3, polygone2);
+		win->triangles = stock_triangles(win->triangles, tmp3, polygone2);
 	else
-	{
-		recursive_triangulate(win->wo, win, tmp3, polygone2);
-		free_list(polygone2);
-	}
+		recursive_triangulate(win, tmp3, polygone2);
 	return (win->triangles);
 }

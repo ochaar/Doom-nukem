@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_oc.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvienot <nvienot@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ochaar <ochaar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/13 14:22:55 by ochaar            #+#    #+#             */
-/*   Updated: 2019/07/25 19:09:46 by nvienot          ###   ########.fr       */
+/*   Updated: 2019/07/21 15:47:47 by ochaar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ void	game_img(t_env *w, t_map *m)
 		if (m->player.minimap == 1)
 			draw_mini_map(w, m);
 	}
-	print_story(w);
 }
 
 void	global_event(t_env *w, t_map *m)
@@ -87,12 +86,19 @@ void	weap_animation(t_env *w, t_map *m)
 	is_falling(m);
 	is_moving(m);
 	slow_down(w, m);
-	elevator(m);
-	if (m->door == 1)
+	if (m->elevator == 1)
 	{
-		m->sector[m->nb_d + 1].floor -= 0.1;
-		if ((int)m->sector[m->nb_d + 1].floor == m->sector[m->nb_d].floor)
-			m->door = -1;
+		m->sector[m->nb_a].floor -= 0.1;
+		m->sector[m->nb_a].ceiling -= 0.1;
+		if ((int)m->sector[m->nb_a].floor == m->sector[m->nb_a + 1].floor - 1)
+			m->elevator = -1;
+	}
+	else if (m->elevator == 2)
+	{
+		m->sector[m->nb_a].floor += 0.1;
+		m->sector[m->nb_a].ceiling += 0.1;
+		if ((int)m->sector[m->nb_a].floor == m->sector[m->nb_a - 1].floor)
+			m->elevator = 0;
 	}
 }
 
@@ -100,13 +106,11 @@ void	run(t_env *w, t_map *m)
 {
 	w->sens = 1;
 	SDL_SetRelativeMouseMode(SDL_TRUE);
-	if (SDL_ShowCursor(SDL_DISABLE) < 0)
-		set_error(w, w->m, 4, strdup_check(w, "SDL Initialisation"));
+	SDL_ShowCursor(SDL_DISABLE);
 	Mix_ResumeMusic();
 	m->stop = 0;
 	while (1)
 	{
-		w->inkeys = SDL_GetKeyboardState(NULL);
 		while (SDL_PollEvent(&w->event))
 			global_event(w, m);
 		if (m->stop == 1 || m->player.hp == 0 || m->player.sector
@@ -118,6 +122,7 @@ void	run(t_env *w, t_map *m)
 				m->change_lvl = 1;
 			break ;
 		}
+		w->inkeys = SDL_GetKeyboardState(NULL);
 		key_events(w, m);
 		weap_animation(w, m);
 		move_all_ennemy(m);
